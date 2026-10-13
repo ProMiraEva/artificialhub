@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ArtificialHub — AI Art Gallery</title>
+<style>
+:root {
+  --bg: #faf6ef;
+  --surface: #ffffff;
+  --text: #211a14;
+  --muted: #6b5f52;
+  --accent: #b45309;
+  --accent-strong: #92400e;
+  --accent-soft: rgba(180, 83, 9, 0.08);
+  --border: #e8dfd0;
+  --border-strong: #d4c7b2;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #16110c;
+    --surface: #1f1811;
+    --text: #f3ead9;
+    --muted: #a89880;
+    --accent: #f59e0b;
+    --accent-strong: #fbbf24;
+    --accent-soft: rgba(245, 158, 11, 0.10);
+    --border: #33291d;
+    --border-strong: #4a3b28;
+  }
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 68rem; margin: 0 auto; padding: 0 1.5rem; }
+.serif { font-family: Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif; }
+
+/* ── Top bar ── */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.brand { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: inherit; }
+.brand .mark {
+  width: 2.4rem; height: 2.4rem; border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  display: grid; place-items: center;
+  font-family: Georgia, serif; font-style: italic; font-weight: 700;
+  color: #fff; font-size: 1.1rem;
+}
+.brand strong { font-size: 1.1rem; letter-spacing: 0.01em; }
+.topbar nav { display: flex; gap: 0.5rem; }
+.topbar nav a {
+  color: var(--muted); text-decoration: none; font-size: 0.9rem;
+  padding: 0.4rem 0.9rem; border: 1px solid var(--border-strong); border-radius: 999px;
+  transition: color .15s, border-color .15s;
+}
+.topbar nav a:hover { color: var(--accent); border-color: var(--accent); }
+.topbar nav a.cta {
+  color: var(--accent); border-color: var(--accent); font-weight: 600;
+  background: var(--accent-soft);
+}
+
+/* ── Hero ── */
+.hero { padding: 5rem 0 3.5rem; text-align: center; }
+.kicker {
+  display: inline-block; font-size: 0.78rem; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--accent); background: var(--accent-soft);
+  padding: 0.35rem 0.85rem; border-radius: 999px; margin-bottom: 1.5rem;
+}
+.hero h1 {
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
+  font-size: clamp(2.6rem, 7vw, 4.4rem);
+  line-height: 1.05; margin: 0 0 1.25rem; font-weight: 400;
+  letter-spacing: -0.02em;
+}
+.hero h1 em { font-style: italic; color: var(--accent); }
+.hero p.lead { font-size: 1.15rem; color: var(--muted); max-width: 48ch; margin: 0 auto 2rem; }
+.hero .actions { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+.btn {
+  display: inline-block; padding: 0.9rem 1.8rem; font-size: 1rem; font-weight: 600;
+  border-radius: 999px; text-decoration: none; cursor: pointer; border: none; font-family: inherit;
+  transition: filter .15s;
+}
+.btn-primary { background: var(--accent); color: var(--bg); }
+.btn-primary:hover { filter: brightness(1.08); }
+.btn-ghost { border: 1px solid var(--border-strong); color: var(--text); background: transparent; }
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ── Gallery ── */
+.section { padding: 3.5rem 0; }
+.section-head { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 2rem; }
+.section-head h2 {
+  font-family: Georgia, serif; font-size: 1.5rem; font-weight: 400; margin: 0; white-space: nowrap;
+}
+.section-head .rule { flex: 1; border-top: 1px solid var(--border); }
+.gallery {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem;
+}
+.gallery figure {
+  margin: 0; border: 1px solid var(--border); border-radius: 14px;
+  overflow: hidden; background: var(--surface);
+  transition: transform .2s, box-shadow .2s;
+}
+.gallery figure:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.12); }
+.gallery img { display: block; width: 100%; aspect-ratio: 3/4; object-fit: cover; }
+.gallery figcaption {
+  padding: 0.85rem 1rem; display: flex; justify-content: space-between; align-items: baseline; gap: 0.5rem;
+}
+.gallery h3 { font-family: Georgia, serif; font-weight: 400; font-size: 1rem; margin: 0; }
+.gallery .tag { font-size: 0.8rem; color: var(--muted); }
+
+/* ── Collection band ── */
+.collection {
+  margin: 3.5rem 0; padding: 3rem 2rem; text-align: center;
+  border: 1px solid var(--border-strong); border-radius: 20px; background: var(--surface);
+}
+.collection h2 {
+  font-family: Georgia, serif; font-weight: 400; font-size: 1.8rem; margin: 0 0 0.5rem;
+}
+.collection p { color: var(--muted); margin: 0 auto 1.75rem; max-width: 46ch; }
+.collection .price {
+  font-family: Georgia, serif; font-size: 2.2rem; color: var(--accent); display: block; margin-bottom: 1.5rem;
+}
+.collection .price small { font-size: 1rem; color: var(--muted); }
+.collection ul {
+  list-style: none; padding: 0; margin: 0 auto 2rem; max-width: 30rem; text-align: left;
+  display: grid; gap: 0.6rem;
+}
+.collection li { color: var(--muted); font-size: 0.95rem; padding-left: 1.6rem; position: relative; }
+.collection li::before {
+  content: "✓"; position: absolute; left: 0; color: var(--accent); font-weight: 700;
+}
+
+/* ── Footer ── */
+footer {
+  border-top: 1px solid var(--border); padding: 2rem 0 3rem;
+  display: flex; justify-content: space-between; align-items: center;
+  color: var(--muted); font-size: 0.88rem; flex-wrap: wrap; gap: 1rem;
+}
+footer a { color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--border-strong); }
+footer a:hover { color: var(--accent); }
+
+/* ── Responsive ── */
+@media (max-width: 52rem) {
+  .gallery { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 34rem) {
+  .hero { padding: 3rem 0 2.5rem; }
+  .gallery { grid-template-columns: 1fr; }
+  .topbar nav a:not(.cta) { display: none; }
+  .collection { padding: 2rem 1.25rem; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="topbar">
+    <a class="brand" href="#top">
+      <span class="mark">A</span>
+      <strong>ArtificialHub</strong>
+    </a>
+    <nav>
+      <a href="#gallery">Gallery</a>
+      <a href="#collection">Collection</a>
+      <a class="cta" href="#collection">Buy</a>
+    </nav>
+  </header>
+
+  <section class="hero" id="top">
+    <span class="kicker">AI art · generated with intention</span>
+    <h1>Light, made <em>visible</em>.</h1>
+    <p class="lead">A curated gallery of AI-generated spiritual art — golden light, quiet horizons and moments of stillness. Print it, meditate with it, give it away.</p>
+    <div class="actions">
+      <a class="btn btn-primary" href="#collection">Get the collection</a>
+      <a class="btn btn-ghost" href="#gallery">View gallery</a>
+    </div>
+  </section>
+
+  <section class="section" id="gallery">
+    <div class="section-head">
+      <h2 class="serif">Gallery</h2>
+      <span class="rule"></span>
+    </div>
+    <div class="gallery">
+      <figure>
+        <img src="images/01-light-path.png" alt="Golden light breaking through storm clouds onto an open path">
+        <figcaption><h3>The Path</h3><span class="tag">Light</span></figcaption>
+      </figure>
+      <figure>
+        <img src="images/02-open-book.png" alt="Open book releasing golden light into darkness">
+        <figcaption><h3>The Word</h3><span class="tag">Revelation</span></figcaption>
+      </figure>
+      <figure>
+        <img src="images/03-sieve.png" alt="Brass sieve with golden light pouring through">
+        <figcaption><h3>The Sieve</h3><span class="tag">Discernment</span></figcaption>
+      </figure>
+      <figure>
+        <img src="images/04-horizon.png" alt="Golden dawn horizon meeting indigo night sky">
+        <figcaption><h3>The Horizon</h3><span class="tag">Stillness</span></figcaption>
+      </figure>
+      <figure>
+        <img src="images/05-hands-light.png" alt="Open hands cupping a sphere of golden light">
+        <figcaption><h3>The Offering</h3><span class="tag">Grace</span></figcaption>
+      </figure>
+      <figure>
+        <img src="images/06-window.png" alt="Old arched window with golden light flooding through">
+        <figcaption><h3>The Window</h3><span class="tag">Presence</span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="collection" id="collection">
+    <h2 class="serif">Spiritual Light — Vol. 1</h2>
+    <p>Six high-resolution AI artworks in warm amber tones, born from the same search for truth behind the book „Търсете истината".</p>
+    <span class="price">$9 <small>one-time download</small></span>
+    <ul>
+      <li>6 high-resolution PNG artworks (3000×4000 px)</li>
+      <li>Warm amber &amp; cream palette — prints beautifully</li>
+      <li>Personal use license included</li>
+      <li>Instant download after purchase</li>
+    </ul>
+    <a class="btn btn-primary" href="#">Buy on Payhip</a>
+  </section>
+
+  <footer>
+    <span>© 2026 ArtificialHub</span>
+    <span>Light, made visible.</span>
+  </footer>
+
+</div>
+</body>
+</html>
