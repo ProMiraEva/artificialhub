@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ArtificialHub — AI Art Gallery</title>
+<title>ArtificialHub — Artist Gallery Template</title>
 <style>
 :root {
   --bg: #f6f5f1;
@@ -58,17 +58,13 @@ body {
   box-shadow: 0 2px 12px var(--accent-soft);
 }
 .brand strong { font-size: 1.1rem; letter-spacing: 0.01em; }
-.topbar nav { display: flex; gap: 0.5rem; }
+.topbar nav { display: flex; gap: 0.5rem; flex-wrap: wrap; }
 .topbar nav a {
   color: var(--muted); text-decoration: none; font-size: 0.9rem;
   padding: 0.4rem 0.9rem; border: 1px solid var(--border-strong); border-radius: 999px;
   transition: color .15s, border-color .15s;
 }
 .topbar nav a:hover { color: var(--accent); border-color: var(--accent); }
-.topbar nav a.cta {
-  color: var(--accent); border-color: var(--accent); font-weight: 600;
-  background: var(--accent-soft);
-}
 
 /* ── Hero ── */
 .hero {
@@ -113,67 +109,69 @@ body {
 .btn-ghost { border: 1px solid var(--border-strong); color: var(--text); background: transparent; }
 .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
 
-/* ── Gallery ── */
-.section { padding: 3.5rem 0; }
-.section-head { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 2rem; }
+/* ── Category sections ── */
+.section { padding: 3rem 0 1rem; }
+.section-head { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 1.75rem; }
 .section-head h2 {
   font-family: Georgia, serif; font-size: 1.5rem; font-weight: 400; margin: 0; white-space: nowrap;
 }
 .section-head .rule { flex: 1; border-top: 1px solid var(--border); }
-.gallery {
+
+/* ── Product cards ── */
+.products {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem;
 }
-.gallery figure {
-  margin: 0; border: 1px solid var(--border); border-radius: 14px;
+.card {
+  border: 1px solid var(--border); border-radius: 14px;
   overflow: hidden; background: var(--surface);
+  display: flex; flex-direction: column;
   transition: transform .2s, box-shadow .2s;
   position: relative;
 }
-.gallery figure:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
-.gallery figure::after {
+.card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+.card .img-wrap { position: relative; }
+.card img { display: block; width: 100%; aspect-ratio: 3/4; object-fit: cover; }
+.card .img-wrap::after {
   content: ""; position: absolute; inset: 0; pointer-events: none;
   background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.25) 100%);
   opacity: 0; transition: opacity .2s;
 }
-.gallery figure:hover::after { opacity: 1; }
-.gallery img { display: block; width: 100%; aspect-ratio: 3/4; object-fit: cover; }
-.gallery figcaption {
-  padding: 0.85rem 1rem; display: flex; justify-content: space-between; align-items: baseline; gap: 0.5rem;
+.card:hover .img-wrap::after { opacity: 1; }
+.card .body {
+  padding: 1rem; display: flex; flex-direction: column; gap: 0.5rem; flex: 1;
 }
-.gallery h3 { font-family: Georgia, serif; font-weight: 400; font-size: 1rem; margin: 0; }
-.gallery .tag { font-size: 0.8rem; color: var(--muted); }
+.card h3 { font-family: Georgia, serif; font-weight: 400; font-size: 1.05rem; margin: 0; }
+.card p { margin: 0; font-size: 0.88rem; color: var(--muted); flex: 1; }
+.card .row {
+  display: flex; justify-content: space-between; align-items: center; margin-top: auto;
+}
+.card .price {
+  font-family: Georgia, serif; font-size: 1.15rem; color: var(--accent); font-weight: 700;
+}
+.card .buy {
+  display: inline-block; padding: 0.45rem 1.1rem; font-size: 0.85rem; font-weight: 600;
+  border-radius: 999px; text-decoration: none;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
+  color: #fff;
+  transition: filter .15s;
+}
+.card .buy:hover { filter: brightness(1.1); }
 
-/* ── Collection band ── */
-.collection {
-  margin: 3.5rem 0; padding: 3rem 2rem; text-align: center;
+/* ── Info band ── */
+.info-band {
+  margin: 3.5rem 0 2rem; padding: 2.5rem 2rem;
   border: 1px solid var(--border-strong); border-radius: 20px;
   background:
     radial-gradient(ellipse 70% 60% at 50% 0%, var(--accent-soft) 0%, transparent 70%),
     var(--surface);
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; text-align: center;
 }
-.collection h2 {
-  font-family: Georgia, serif; font-weight: 400; font-size: 1.8rem; margin: 0 0 0.5rem;
+.info-band .item .num {
+  font-family: Georgia, serif; font-style: italic; color: var(--accent);
+  display: block; margin-bottom: 0.5rem; font-size: 0.95rem;
 }
-.collection p { color: var(--muted); margin: 0 auto 1.75rem; max-width: 46ch; }
-.collection .price {
-  font-family: Georgia, serif; font-size: 2.2rem;
-  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
-  -webkit-background-clip: text; background-clip: text;
-  -webkit-text-fill-color: transparent; color: transparent;
-  display: inline-block; margin-bottom: 1.5rem;
-}
-.collection .price small {
-  font-size: 1rem; color: var(--muted);
-  -webkit-text-fill-color: var(--muted); color: var(--muted);
-}
-.collection ul {
-  list-style: none; padding: 0; margin: 0 auto 2rem; max-width: 30rem; text-align: left;
-  display: grid; gap: 0.6rem;
-}
-.collection li { color: var(--muted); font-size: 0.95rem; padding-left: 1.6rem; position: relative; }
-.collection li::before {
-  content: "✓"; position: absolute; left: 0; color: var(--accent); font-weight: 700;
-}
+.info-band h3 { font-family: Georgia, serif; font-weight: 400; font-size: 1.05rem; margin: 0 0 0.35rem; }
+.info-band p { margin: 0; font-size: 0.9rem; color: var(--muted); }
 
 /* ── Footer ── */
 footer {
@@ -186,13 +184,13 @@ footer a:hover { color: var(--accent); }
 
 /* ── Responsive ── */
 @media (max-width: 52rem) {
-  .gallery { grid-template-columns: repeat(2, 1fr); }
+  .products { grid-template-columns: repeat(2, 1fr); }
+  .info-band { grid-template-columns: 1fr; }
 }
 @media (max-width: 34rem) {
   .hero { padding: 3rem 0 2.5rem; }
-  .gallery { grid-template-columns: 1fr; }
-  .topbar nav a:not(.cta) { display: none; }
-  .collection { padding: 2rem 1.25rem; }
+  .products { grid-template-columns: 1fr; }
+  .topbar nav a:not(:last-child) { display: none; }
 }
 </style>
 </head>
@@ -205,73 +203,189 @@ footer a:hover { color: var(--accent); }
       <strong>ArtificialHub</strong>
     </a>
     <nav>
-      <a href="#gallery">Gallery</a>
-      <a href="#collection">Collection</a>
-      <a class="cta" href="#collection">Buy</a>
+      <a href="#portraits">Portraits</a>
+      <a href="#posters">Posters</a>
+      <a href="#cards">Cards</a>
     </nav>
   </header>
 
   <section class="hero" id="top">
-    <span class="kicker">AI art · generated with intention</span>
-    <h1>Light, made <em>visible</em>.</h1>
-    <p class="lead">A curated gallery of AI-generated spiritual art — golden light, quiet horizons and moments of stillness. Print it, meditate with it, give it away.</p>
+    <span class="kicker">Original art · handmade</span>
+    <h1>Art, made by hand.</h1>
+    <p class="lead">A small gallery of original works — portraits, posters and greeting cards. Every piece is drawn, printed and signed by the artist.</p>
     <div class="actions">
-      <a class="btn btn-primary" href="#collection">Get the collection</a>
-      <a class="btn btn-ghost" href="#gallery">View gallery</a>
+      <a class="btn btn-primary" href="#portraits">Browse the gallery</a>
+      <a class="btn btn-ghost" href="#about">About the artist</a>
     </div>
   </section>
 
-  <section class="section" id="gallery">
+  <!-- ═══ PORTRAITS ═══ -->
+  <section class="section" id="portraits">
     <div class="section-head">
-      <h2 class="serif">Gallery</h2>
+      <h2 class="serif">Portraits</h2>
       <span class="rule"></span>
     </div>
-    <div class="gallery">
-      <figure>
-        <img src="images/01-light-path.png" alt="Golden light breaking through storm clouds onto an open path">
-        <figcaption><h3>The Path</h3><span class="tag">Light</span></figcaption>
-      </figure>
-      <figure>
-        <img src="images/02-open-book.png" alt="Open book releasing golden light into darkness">
-        <figcaption><h3>The Word</h3><span class="tag">Revelation</span></figcaption>
-      </figure>
-      <figure>
-        <img src="images/03-sieve.png" alt="Brass sieve with golden light pouring through">
-        <figcaption><h3>The Sieve</h3><span class="tag">Discernment</span></figcaption>
-      </figure>
-      <figure>
-        <img src="images/04-horizon.png" alt="Golden dawn horizon meeting indigo night sky">
-        <figcaption><h3>The Horizon</h3><span class="tag">Stillness</span></figcaption>
-      </figure>
-      <figure>
-        <img src="images/05-hands-light.png" alt="Open hands cupping a sphere of golden light">
-        <figcaption><h3>The Offering</h3><span class="tag">Grace</span></figcaption>
-      </figure>
-      <figure>
-        <img src="images/06-window.png" alt="Old arched window with golden light flooding through">
-        <figcaption><h3>The Window</h3><span class="tag">Presence</span></figcaption>
-      </figure>
+    <div class="products">
+      <div class="card">
+        <div class="img-wrap"><img src="images/01-light-path.png" alt="Portrait — The Path"></div>
+        <div class="body">
+          <h3>The Path</h3>
+          <p>Original portrait study — ink and gold leaf on cotton paper.</p>
+          <div class="row">
+            <span class="price">€25</span>
+            <a class="buy" href="#" data-payhip="REPLACE_WITH_YOUR_PAYHIP_LINK">Buy</a>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="img-wrap"><img src="images/02-open-book.png" alt="Portrait — The Word"></div>
+        <div class="body">
+          <h3>The Word</h3>
+          <p>Limited edition print — signed and numbered by the artist.</p>
+          <div class="row">
+            <span class="price">€18</span>
+            <a class="buy" href="#" data-payhip="REPLACE_WITH_YOUR_PAYHIP_LINK">Buy</a>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="img-wrap"><img src="images/03-sieve.png" alt="Portrait — The Sieve"></div>
+        <div class="body">
+          <h3>The Sieve</h3>
+          <p>Mixed media on canvas — comes with a certificate of authenticity.</p>
+          <div class="row">
+            <span class="price">€35</span>
+            <a class="buy" href="#" data-payhip="REPLACE_WITH_YOUR_PAYHIP_LINK">Buy</a>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="collection" id="collection">
-    <h2 class="serif">Spiritual Light — Vol. 1</h2>
-    <p>Six high-resolution AI artworks in warm amber tones, born from the same search for truth behind the book „Търсете истината".</p>
-    <span class="price">$9 <small>one-time download</small></span>
-    <ul>
-      <li>6 high-resolution PNG artworks (3000×4000 px)</li>
-      <li>Warm amber &amp; cream palette — prints beautifully</li>
-      <li>Personal use license included</li>
-      <li>Instant download after purchase</li>
-    </ul>
-    <a class="btn btn-primary" href="#">Buy on Payhip</a>
+  <!-- ═══ POSTERS ═══ -->
+  <section class="section" id="posters">
+    <div class="section-head">
+      <h2 class="serif">Posters</h2>
+      <span class="rule"></span>
+    </div>
+    <div class="products">
+      <div class="card">
+        <div class="img-wrap"><img src="images/04-horizon.png" alt="Poster — The Horizon"></div>
+        <div class="body">
+          <h3>The Horizon</h3>
+          <p>A2 giclée poster — archival inks, ready to frame.</p>
+          <div class="row">
+            <span class="price">€22</span>
+            <a class="buy" href="#" data-payhip="REPLACE_WITH_YOUR_PAYHIP_LINK">Buy</a>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="img-wrap"><img src="images/05-hands-light.png" alt="Poster — The Offering"></div>
+        <div class="body">
+          <h3>The Offering</h3>
+          <p>A3 giclée poster — signed on the back.</p>
+          <div class="row">
+            <span class="price">€15</span>
+            <a class="buy" href="#" data-payhip="REPLACE_WITH_YOUR_PAYHIP_LINK">Buy</a>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="img-wrap"><img src="images/06-window.png" alt="Poster — The Window"></div>
+        <div class="body">
+          <h3>The Window</h3>
+          <p>B1 gallery poster — edition of 50, numbered.</p>
+          <div class="row">
+            <span class="price">€28</span>
+            <a class="buy" href="#" data-payhip="REPLACE_WITH_YOUR_PAYHIP_LINK">Buy</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CARDS ═══ -->
+  <section class="section" id="cards">
+    <div class="section-head">
+      <h2 class="serif">Cards</h2>
+      <span class="rule"></span>
+    </div>
+    <div class="products">
+      <div class="card">
+        <div class="img-wrap"><img src="images/02-open-book.png" alt="Card set — Light"></div>
+        <div class="body">
+          <h3>Light — set of 5</h3>
+          <p>Greeting cards with envelopes — blank inside for your words.</p>
+          <div class="row">
+            <span class="price">€12</span>
+            <a class="buy" href="#" data-payhip="REPLACE_WITH_YOUR_PAYHIP_LINK">Buy</a>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="img-wrap"><img src="images/04-horizon.png" alt="Card set — Horizon"></div>
+        <div class="body">
+          <h3>Horizon — set of 5</h3>
+          <p>Letterpress cards — printed on recycled cotton stock.</p>
+          <div class="row">
+            <span class="price">€12</span>
+            <a class="buy" href="#" data-payhip="REPLACE_WITH_YOUR_PAYHIP_LINK">Buy</a>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="img-wrap"><img src="images/05-hands-light.png" alt="Card set — Grace"></div>
+        <div class="body">
+          <h3>Grace — set of 5</h3>
+          <p>Folded cards with gold-edged envelopes.</p>
+          <div class="row">
+            <span class="price">€14</span>
+            <a class="buy" href="#" data-payhip="REPLACE_WITH_YOUR_PAYHIP_LINK">Buy</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ INFO BAND ═══ -->
+  <section class="info-band" id="about">
+    <div class="item">
+      <span class="num">i.</span>
+      <h3>Original works</h3>
+      <p>Every piece is created by hand — no prints of prints.</p>
+    </div>
+    <div class="item">
+      <span class="num">ii.</span>
+      <h3>Signed &amp; shipped</h3>
+      <p>Each order is signed and carefully packed for travel.</p>
+    </div>
+    <div class="item">
+      <span class="num">iii.</span>
+      <h3>Worldwide delivery</h3>
+      <p>Shipped from Bulgaria with tracking — 5–12 days worldwide.</p>
+    </div>
   </section>
 
   <footer>
     <span>© 2026 ArtificialHub</span>
-    <span>Light, made visible.</span>
+    <span>Art, made by hand.</span>
   </footer>
 
 </div>
+
+<script>
+/* ── Payhip links ─────────────────────────────────────────────
+   Replace each card's Payhip link below (or edit the data-payhip
+   attribute in the HTML). Format: https://payhip.com/b/XXXXX
+   Until replaced, Buy buttons do nothing.                       */
+document.querySelectorAll('.buy[data-payhip]').forEach(function (btn) {
+  var url = btn.getAttribute('data-payhip');
+  if (url && url.indexOf('REPLACE_WITH') === -1) {
+    btn.setAttribute('href', url);
+    btn.removeAttribute('data-payhip');
+  }
+});
+</script>
 </body>
 </html>
